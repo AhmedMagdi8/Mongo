@@ -1,0 +1,44 @@
+show dbs
+show collections
+db.flightData.insertOne({ key: "heelo" });
+db.flightData.insertMany([{ key: "heelo" },{ key: "value"}]);
+db.flightData.find();
+db.flightData.find().pretty();
+db.flightData.deleteOne({_id: "678905f9ca2d32165d544ca7"});
+db.flightData.deleteMany({});
+db.flightData.updateOne({name: "mosco"}, { $set: { name: "Mosco" }}) // patch the object
+db.flightData.updateMany({}, { $set: { name: "Mosco" }}) // replace the object
+db.flightData.update({}, { name: "Mosco" } ) // replace existing object with new object and keep id and if you use $set it will do as updateOne, updateMany
+db.flightData.replaceOne({name: "mosco"}, { name: "Mosco" } ) // replace the object
+
+db.flightData.find({ distance: { $gt: 1999 } });
+db.flightData.findOne({ distance: { $lt: 1999 } }); // first matching
+
+data is retreived cursor object like pagination in programming
+----> type it for more
+
+db.flightData.find().toArray(); // fetches whole records
+db.flightData.find().forEach(flightData => {printjson(flightData)});
+db.flightData.find({}, { name: 1 });
+[
+  { _id: ObjectId('67804db9aba0c759ec544ca7'), name: 'Mosco' },
+  { _id: ObjectId('6780505daba0c759ec544ca8'), name: 'cairo' },
+  { _id: ObjectId('6780509aaba0c759ec544ca9'), name: 'london' },
+  { _id: 2222, name: 'paris' },
+  { _id: ObjectId('678905f9ca2d32165d544ca7') }
+]
+// id is special field it's by default included
+db.flightData.find({}, { name: 1, _id: 0 });
+[
+  { name: 'Mosco' },
+  { name: 'cairo' },
+  { name: 'london' },
+  { name: 'paris' },
+  {}
+]
+// Mongo db has 100 level of nesting // hard limit // below 16 MB 
+// Arrays can store any type of data
+db.flightData.find({}, { name: 1, _id: 0 });
+
+db.flightData.findOne({ details: { $gt: 1999 } }).details; incase details is object
+db.flightData.findOne({ details: "sports" }); if details is array containing sports it will return it
